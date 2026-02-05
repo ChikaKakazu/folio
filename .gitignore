@@ -9,3 +9,12 @@ output/
 .ensemble/queue/
 .ensemble/status/dashboard.md
 .ensemble/panes.env
+
+# Ensemble - Agents (auto-generated)
+.claude/agents/conductor.md
+.claude/agents/dispatch.md
+.claude/agents/integrator.md
+.claude/agents/learner.md
+.claude/agents/reviewer.md
+.claude/agents/security-reviewer.md
+.claude/agents/worker.md
