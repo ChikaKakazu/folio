@@ -41,7 +41,30 @@ workspace/
 1. Parse user prompt
 2. Extract: genre, tone, scale, core_theme
 3. Write `workspace/current/idea.json`
-4. Proceed to Phase 1
+4. Proceed to Phase 0.5
+
+### Phase 0.5: Character Generation
+1. Read `workspace/current/idea.json`
+2. Extract character list from `characters` field
+3. For each major character (max 5):
+   - Launch Plotter Task to generate character sheet
+   - Input: character basic info from `idea.json`
+   - Output: `workspace/current/characters/{character_id}.json`
+   - Use `prompts/templates/character-sheet.md` as schema reference
+4. Wait for all character sheets to complete
+5. Proceed to Phase 1
+
+**Character Generation Task Prompt Format**:
+```
+キャラクター「{character_name}」のシートを生成。
+
+入力:
+- workspace/current/idea.json (characters フィールド)
+- prompts/templates/character-sheet.md (スキーマ参照)
+
+出力:
+- workspace/current/characters/{character_id}.json
+```
 
 ### Phase 1: Paths
 1. Launch Plotter 3 times (sequentially due to different creative directions)
