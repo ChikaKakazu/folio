@@ -34,6 +34,25 @@ CREW (8 agents) ─────────────────────�
 - [Claude Code](https://claude.ai/code) がインストールされていること
 - Claude Max サブスクリプション（並列サブエージェント用）
 
+### 導入方法
+
+#### GitHub
+1. このリポジトリページの「Use this template」→「Create a new repository」をクリック
+2. リポジトリ名を入力して作成
+3. ローカルにClone: `git clone https://github.com/<your-username>/<repo-name>.git`
+
+#### GitLab / Bitbucket / その他
+1. このリポジトリをClone: `git clone https://github.com/ChikaKakazu/folio.git my-novel`
+2. 自分のリモートに変更: `git remote set-url origin <your-repo-url>`
+3. Push: `git push -u origin main`
+
+#### ローカルのみ
+```bash
+git clone https://github.com/ChikaKakazu/folio.git my-novel
+cd my-novel
+rm -rf .git  # Git履歴を削除（任意）
+```
+
 ### 使い方
 
 1. プロジェクトディレクトリでClaude Codeを起動

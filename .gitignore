@@ -19,3 +19,15 @@ queue/
 .claude/agents/reviewer.md
 .claude/agents/security-reviewer.md
 .claude/agents/worker.md
+
+# Ensemble - Commands (dev only)
+.claude/commands/go.md
+.claude/commands/go-light.md
+.claude/commands/go-issue.md
+.claude/commands/review.md
+.claude/commands/improve.md
+
+# Ensemble - Dependencies (dev only)
+pyproject.toml
+uv.lock
+.python-version
