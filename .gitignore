@@ -6,6 +6,7 @@ __pycache__/
 # Ensemble - Runtime
 workspace/
 output/
+queue/
 .ensemble/queue/
 .ensemble/status/dashboard.md
 .ensemble/panes.env
