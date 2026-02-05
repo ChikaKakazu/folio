@@ -42,9 +42,17 @@ CREW (8 agents) ─────────────────────�
 3. ローカルにClone: `git clone https://github.com/<your-username>/<repo-name>.git`
 
 #### GitLab / Bitbucket / その他
-1. このリポジトリをClone: `git clone https://github.com/ChikaKakazu/folio.git my-novel`
-2. 自分のリモートに変更: `git remote set-url origin <your-repo-url>`
-3. Push: `git push -u origin main`
+
+**方法A: Import機能（推奨）**
+
+GitLabの「New project」→「Import project」→「Repository by URL」で以下を入力:
+- URL: `https://github.com/ChikaKakazu/folio.git`
+
+**方法B: 手動**
+1. GitLab等で空のリポジトリを作成（READMEなしで）
+2. Folioをクローン: `git clone https://github.com/ChikaKakazu/folio.git my-novel`
+3. リモートを変更: `cd my-novel && git remote set-url origin <作成したリポジトリのURL>`
+4. Push: `git push -u origin main`
 
 #### ローカルのみ
 ```bash
