@@ -1,0 +1,11 @@
+# Python
+.venv/
+*.pyc
+__pycache__/
+
+# Ensemble - Runtime
+workspace/
+output/
+.ensemble/queue/
+.ensemble/status/dashboard.md
+.ensemble/panes.env

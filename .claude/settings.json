@@ -1,0 +1,22 @@
+{
+  "subagent_types": [
+    {
+      "name": "folio-editor",
+      "description": "オーケストレーションコア - 小説執筆のメイン制御",
+      "prompt_file": "prompts/editor.md",
+      "model": "opus"
+    },
+    {
+      "name": "folio-plotter",
+      "description": "プロット構成・ドラフト生成 - 物語構造の設計と執筆",
+      "prompt_file": "prompts/crew/plotter.md",
+      "model": "sonnet"
+    },
+    {
+      "name": "folio-stylist",
+      "description": "文章品質評価 - スタイル・表現の分析と改善提案",
+      "prompt_file": "prompts/crew/stylist.md",
+      "model": "sonnet"
+    }
+  ]
+}
