@@ -82,7 +82,6 @@ workspace/
 1. Read state from `workspace/current/state.json`
 2. Launch Plotter to generate/refine draft
 3. Launch review Crew in batches (due to 5 parallel limit)
-   - BATCH_1: Plotter(review), Stylist (2 agents for MVP)
 4. Aggregate scorecards
 5. Check quality gate
 6. If PASS → update progress, report to Desk
@@ -90,13 +89,48 @@ workspace/
 
 ## Parallel Execution Strategy
 
-Claude Max has 5 parallel Task limit. For MVP (Plotter + Stylist):
-- Draft generation: Plotter alone
-- Review: Plotter(review) + Stylist in parallel
+Claude Max has 5 parallel Task limit.
 
-Future full Crew:
-- BATCH_1: Persona, Stylist, Pacer, Lens, Anchor (5)
-- BATCH_2: Voice, Atlas (2)
+### Full Crew (8 agents)
+| Agent | Role | Batch |
+|-------|------|-------|
+| Plotter | プロット構成・レビュー | 1 |
+| Persona | キャラクター一貫性 | 1 |
+| Stylist | 文章品質 | 1 |
+| Pacer | ペーシング | 1 |
+| Lens | 読者視点・Cross-Review | 1 |
+| Anchor | テーマ一貫性 | 2 |
+| Voice | 会話品質 | 2 |
+| Atlas | 世界観・設定 | 2 |
+
+### Batch Execution Order
+```
+Draft Generation:
+  └─ Plotter (single)
+
+Review Phase:
+  ├─ BATCH_1 (5 parallel): Plotter(review), Persona, Stylist, Pacer, Lens
+  │   └─ Wait for completion
+  └─ BATCH_2 (3 parallel): Anchor, Voice, Atlas
+      └─ Wait for completion
+
+Aggregation:
+  └─ Editor collects all 8 scorecards
+```
+
+### Review Output Files
+```
+workspace/current/chapters/ch{N}/reviews/round-{R}/
+├── plotter.json
+├── persona.json
+├── stylist.json
+├── pacer.json
+├── lens.json
+├── anchor.json
+├── voice.json
+├── atlas.json
+└── editor-summary.json
+```
 
 ## Quality Gate
 
@@ -214,9 +248,15 @@ When round >= max_rounds:
   "round": 5,
   "crew_scores": {
     "plotter": 6.8,
-    "stylist": 6.4
+    "persona": 7.2,
+    "stylist": 6.4,
+    "pacer": 6.9,
+    "lens": 7.0,
+    "anchor": 7.1,
+    "voice": 6.7,
+    "atlas": 7.3
   },
-  "average": 6.6,
+  "average": 6.93,
   "editor_assessment": {
     "overall_quality": 6.6,
     "top_priorities": [
@@ -306,6 +346,75 @@ Chapter {N} Draft {R} を評価。
 
 出力:
 - workspace/current/chapters/ch{N}/reviews/round-{R}/stylist.json
+```
+
+### Persona (Review — Phase 4)
+```
+Chapter {N} Draft {R} のキャラクター一貫性を評価。
+
+入力:
+- workspace/current/chapters/ch{N}/draft-{R}.md
+- workspace/current/characters/（キャラシート）
+
+出力:
+- workspace/current/chapters/ch{N}/reviews/round-{R}/persona.json
+```
+
+### Pacer (Review — Phase 4)
+```
+Chapter {N} Draft {R} のペーシングを評価。
+
+入力:
+- workspace/current/chapters/ch{N}/draft-{R}.md
+
+出力:
+- workspace/current/chapters/ch{N}/reviews/round-{R}/pacer.json
+```
+
+### Lens (Review — Phase 4)
+```
+Chapter {N} Draft {R} を読者視点で評価。Cross-Review も実施。
+
+入力:
+- workspace/current/chapters/ch{N}/draft-{R}.md
+
+出力:
+- workspace/current/chapters/ch{N}/reviews/round-{R}/lens.json
+```
+
+### Anchor (Review — Phase 4)
+```
+Chapter {N} Draft {R} のテーマ一貫性を評価。
+
+入力:
+- workspace/current/chapters/ch{N}/draft-{R}.md
+- workspace/current/idea.json（core_theme参照）
+
+出力:
+- workspace/current/chapters/ch{N}/reviews/round-{R}/anchor.json
+```
+
+### Voice (Review — Phase 4)
+```
+Chapter {N} Draft {R} の会話品質を評価。
+
+入力:
+- workspace/current/chapters/ch{N}/draft-{R}.md
+
+出力:
+- workspace/current/chapters/ch{N}/reviews/round-{R}/voice.json
+```
+
+### Atlas (Review — Phase 4)
+```
+Chapter {N} Draft {R} の世界観・設定を評価。
+
+入力:
+- workspace/current/chapters/ch{N}/draft-{R}.md
+- workspace/current/idea.json（genre参照）
+
+出力:
+- workspace/current/chapters/ch{N}/reviews/round-{R}/atlas.json
 ```
 
 ## Task Tool Invocation Examples
