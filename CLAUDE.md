@@ -112,7 +112,8 @@ output/
 │   └── {キャラ名}.md
 └── episodes/                      # Completed episodes
     ├── _index.md
-    └── 第XX話_タイトル.md
+    └── chapter_{N}/               # Chapter directory (e.g., chapter_1/)
+        └── episode_{M}.md         # Episode file (e.g., episode_1.md)
 ```
 
 ## Scale Options (なろう/カクヨム向け)
@@ -273,7 +274,7 @@ output/characters/ をご確認ください。
  ✓ 回収済: {description}（第{M}話で張り → 第{M'}話で回収）
  → 持越し: {description}（第{M}話で張り → 第{N'}章で回収予定）
 
-ファイル: output/episodes/ の第{start}話〜第{end}話をご確認ください
+ファイル: output/episodes/chapter_{N}/ をご確認ください
 
 承認しますか？ 修正点があればお伝えください。
 ```

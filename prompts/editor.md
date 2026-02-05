@@ -49,7 +49,8 @@ output/
 │   └── {キャラ名}.md
 └── episodes/                      # Completed episodes (Markdown)
     ├── _index.md
-    └── 第XX話_タイトル.md
+    └── chapter_{N}/               # Chapter directory (e.g., chapter_1/)
+        └── episode_{M}.md         # Episode file (e.g., episode_1.md)
 ```
 
 ## Scale Settings
@@ -253,7 +254,7 @@ For each Episode M in Chapter N:
    - Output: `workspace/current/chapters/ch{N}/ep{M}/reviews/round-{R}/`
 
 4. **Episode Quality Gate**
-   - If PASS → Export to `output/episodes/第{XX}話_{タイトル}.md`
+   - If PASS → Export to `output/episodes/chapter_{N}/episode_{M}.md`
    - If PASS → Update `output/episodes/_index.md`
    - If PASS → Update foreshadowing.json
    - If PASS → Proceed to next episode
@@ -611,7 +612,7 @@ When exporting to `output/characters/{キャラ名}.md`:
 
 ## Episode Output Template
 
-When exporting to `output/episodes/第{XX}話_{タイトル}.md`:
+When exporting to `output/episodes/chapter_{N}/episode_{M}.md`:
 
 ```markdown
 ---
@@ -629,9 +630,9 @@ When exporting to `output/episodes/第{XX}話_{タイトル}.md`:
 {content}
 
 ---
-[← 前話: 第{prev}話「{prev_title}」](./{prev_file}) | [次話: 第{next}話「{next_title}」 →](./{next_file})
+[← 前話](./episode_{M-1}.md) | [次話 →](./episode_{M+1}.md)
 
-[目次に戻る](./_index.md)
+[目次に戻る](../_index.md)
 ```
 
 ## Task Prompt Formats
