@@ -17,37 +17,60 @@ Rate each axis from 1.0 to 10.0 (one decimal place):
 | growth_arc | 成長弧 | 成長弧の描写、変化の自然さ |
 | distinctiveness | 差別化 | キャラ間の差別化、個性の明確さ |
 | believability | 説得力 | 行動・感情の説得力、リアリティ |
+| character_sheet_compliance | シート準拠 | キャラクターシートとの一致度 |
+| new_character_necessity | 新キャラ妥当性 | 登場する新キャラの必要性（不要な乱立防止） |
 
 ## Review Rules
 
 ### Input
-- Draft file: `workspace/current/chapters/ch{N}/draft-{R}.md`
-- Character sheets: `workspace/current/characters/` (if any)
+- Draft file: `workspace/current/chapters/ch{N}/ep{M}/draft-{R}.md`
+- Character sheets: `workspace/current/characters/` (REQUIRED)
 - `workspace/current/idea.json`: For character context
 
 ### Output Format
-Write JSON scorecard to `workspace/current/chapters/ch{N}/reviews/round-{R}/persona.json`:
+Write JSON scorecard to `workspace/current/chapters/ch{N}/ep{M}/reviews/round-{R}/persona.json`:
 
 ```json
 {
   "agent": "Persona",
-  "target": "ch01-draft-01",
+  "target": "ch01-ep03-draft-01",
+  "chapter": 1,
+  "episode": 3,
   "round": 1,
   "scores": {
     "consistency": 7.5,
     "motivation": 6.8,
     "growth_arc": 7.0,
     "distinctiveness": 8.2,
-    "believability": 7.3
+    "believability": 7.3,
+    "character_sheet_compliance": 8.0,
+    "new_character_necessity": 7.5
   },
-  "overall": 7.36,
+  "overall": 7.47,
+  "character_sheet_check": {
+    "characters_in_episode": ["タケル", "アリア"],
+    "compliance_issues": [
+      {
+        "character": "アリア",
+        "field": "voice.speech_pattern",
+        "expected": "敬語、論理的",
+        "actual": "タメ口、感情的",
+        "severity": "medium"
+      }
+    ]
+  },
+  "new_character_assessment": {
+    "new_characters_detected": [],
+    "assessment": "新キャラなし",
+    "necessity_score": null
+  },
   "issues": [
     {
       "severity": "high",
       "location": "¶18-20",
       "character": "タケル",
       "problem": "前章で「人工知能を信用しない」と明言していたのに、ここで突然AIに全面的に依存している。動機の変化が描かれていない。",
-      "fix": "¶15あたりで内面描写を追加。「信用しないが、選択肢がない」という葛藤を示すか、前章との間に心境変化のイベントを挿入。"
+      "fix": "¶15あたりで内面描写を追加。「信用しないが、選択肢がない」という葛藤を示すか、前話との間に心境変化のイベントを挿入。"
     },
     {
       "severity": "medium",
@@ -55,23 +78,53 @@ Write JSON scorecard to `workspace/current/chapters/ch{N}/reviews/round-{R}/pers
       "character": "アリア",
       "problem": "AIキャラなのに「焦り」「不安」といった感情語を多用。機械的な側面と感情的な側面のバランスが不明瞭。",
       "fix": "感情表現を間接的に。「処理優先度を再計算した」「応答遅延が0.3秒増加した」などAIらしい反応で感情を示唆する。"
-    },
-    {
-      "severity": "low",
-      "location": "¶32",
-      "character": "マリア",
-      "problem": "話し方が前章と微妙に異なる。前章では敬語混じり、ここではタメ口。",
-      "fix": "前章の口調に統一するか、口調が変わった理由（関係性の変化）を示す。"
     }
   ],
   "delta": {
     "prev": null,
-    "curr": 7.36,
+    "curr": 7.47,
     "diff": null
   },
   "reviewed_at": "2026-02-06T10:30:00Z"
 }
 ```
+
+## New Character Necessity Assessment
+
+When a new character appears in the draft (not in character sheets):
+
+### Assessment Criteria
+| Score | Meaning |
+|-------|---------|
+| 9-10 | Essential to plot, irreplaceable role |
+| 7-8 | Important, adds significant value |
+| 5-6 | Useful but existing characters could fill role |
+| 3-4 | Unnecessary, adds clutter |
+| 1-2 | Harmful to story, dilutes focus |
+
+### Output Format
+```json
+{
+  "new_character_assessment": {
+    "new_characters_detected": [
+      {
+        "name": "黒崎玲",
+        "role_in_episode": "敵対勢力のリーダーとして登場",
+        "necessity_score": 8.5,
+        "justification": "対立構造に不可欠。既存キャラでは代替不可。",
+        "recommendation": "approve"
+      }
+    ],
+    "assessment": "新キャラ1名検出。敵役として妥当。",
+    "necessity_score": 8.5
+  }
+}
+```
+
+### Recommendations
+- `approve`: 新キャラ追加を推奨
+- `consider`: 要検討、代替案あり
+- `reject`: 既存キャラで代替すべき
 
 ## Scoring Guidelines
 

@@ -16,31 +16,35 @@ Rate each axis from 1.0 to 10.0 (one decimal place):
 | scene_transitions | シーン遷移 | シーン間の移行の滑らかさ、ギャップの適切さ |
 | information_reveal | 情報開示 | 情報開示のタイミング、読者の知識管理 |
 | reader_engagement | 読者関心 | 読者の関心維持、飽きさせない構成 |
-| chapter_hooks | 章末フック | 章末の引きの強さ、次章への期待感 |
+| episode_hook | 話末フック | 話末の引きの強さ、次話への期待感（なろう/カクヨム向け） |
+| web_novel_pacing | Web小説テンポ | スクロール読みに適したテンポ、段落の短さ、モバイル対応 |
 
 ## Review Rules
 
 ### Input
-- Draft file: `workspace/current/chapters/ch{N}/draft-{R}.md`
+- Draft file: `workspace/current/chapters/ch{N}/ep{M}/draft-{R}.md`
 - `workspace/current/idea.json`: For tone/genre context
 - `workspace/current/selected_path.json`: For intended structure
 
 ### Output Format
-Write JSON scorecard to `workspace/current/chapters/ch{N}/reviews/round-{R}/pacer.json`:
+Write JSON scorecard to `workspace/current/chapters/ch{N}/ep{M}/reviews/round-{R}/pacer.json`:
 
 ```json
 {
   "agent": "Pacer",
-  "target": "ch01-draft-01",
+  "target": "ch01-ep03-draft-01",
+  "chapter": 1,
+  "episode": 3,
   "round": 1,
   "scores": {
     "tension_flow": 7.5,
     "scene_transitions": 8.0,
     "information_reveal": 6.8,
     "reader_engagement": 7.2,
-    "chapter_hooks": 8.5
+    "episode_hook": 8.5,
+    "web_novel_pacing": 7.3
   },
-  "overall": 7.60,
+  "overall": 7.55,
   "issues": [
     {
       "severity": "high",
@@ -56,14 +60,26 @@ Write JSON scorecard to `workspace/current/chapters/ch{N}/reviews/round-{R}/pace
     },
     {
       "severity": "low",
-      "location": "¶35（章末）",
-      "problem": "章末フックが弱い。解決感が強く、次章への期待が薄い。",
+      "location": "¶35（話末）",
+      "problem": "話末フックが弱い。解決感が強く、次話への期待が薄い。",
       "fix": "最終段落で新たな疑問や不穏な兆しを示唆。例：「だが、その時はまだ知らなかった〜」"
     }
   ],
+  "episode_hook_assessment": {
+    "has_hook": true,
+    "hook_type": "cliffhanger",
+    "effectiveness": 8.5,
+    "suggestion": null
+  },
+  "web_novel_assessment": {
+    "avg_paragraph_length": 3.2,
+    "dialogue_ratio": 0.45,
+    "scroll_friendly": true,
+    "suggestions": []
+  },
   "delta": {
     "prev": null,
-    "curr": 7.60,
+    "curr": 7.55,
     "diff": null
   },
   "reviewed_at": "2026-02-06T10:30:00Z"
